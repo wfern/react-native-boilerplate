@@ -1,4 +1,4 @@
-import { TextProps, View, ViewProps } from 'react-native';
+import { Platform, TextProps, View, ViewProps } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { ArrowLeftIcon } from 'lucide-react-native';
 
@@ -46,6 +46,11 @@ type HeaderBackButtonProps = Omit<
 
 export function HeaderBackButton(props: HeaderBackButtonProps) {
   const navigation = useNavigation();
+
+  if (Platform.OS === 'ios') {
+    return null;
+  }
+
   return (
     <HeaderButton onPress={navigation.goBack} {...props}>
       <ArrowLeftIcon color={colors.primaryForeground} />

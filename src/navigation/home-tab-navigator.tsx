@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Animated, Platform, useAnimatedValue, View } from 'react-native';
+import { Animated, Platform, View } from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { useIsFocused } from '@react-navigation/native';
 import {
@@ -9,7 +9,7 @@ import {
 } from 'lucide-react-native';
 
 import { colors } from '@/constants/colors';
-import { PressableRipple } from '@/components/pressable-ripple';
+import { PressableScale } from '@/components/pressable-scale';
 import { Account } from '@/screens/account';
 import { Developer } from '@/screens/developer';
 import { Home } from '@/screens/home';
@@ -36,7 +36,7 @@ export const HomeTabs = createBottomTabNavigator({
   screenOptions: {
     headerShown: false,
     tabBarButton: (props) => {
-      return <PressableRipple pressColor={colors.primary} {...props} />;
+      return <PressableScale {...props} />;
     },
     tabBarStyle: {
       height: Platform.OS === 'ios' ? 64 + 32 : 64,
@@ -85,63 +85,17 @@ type IconProps = {
 };
 
 function ProfileIcon({ focused, color }: IconProps) {
-  const translateAnimationValue = useAnimatedValue(0);
-
-  if (focused) {
-    Animated.spring(translateAnimationValue, {
-      toValue: 2,
-      bounciness: 20,
-      useNativeDriver: true,
-    }).start(() => {
-      translateAnimationValue.setValue(0);
-    });
-  }
-
   return (
-    <Animated.View
-      style={{
-        transform: [
-          {
-            translateY: translateAnimationValue.interpolate({
-              inputRange: [0, 1, 2],
-              outputRange: [0, -3, 0],
-            }),
-          },
-        ],
-      }}
-    >
+    <Animated.View>
       <UserIcon color={color} size={TAB_ICON_SIZE} />
     </Animated.View>
   );
 }
 
 function HomeIcon({ focused, color }: IconProps) {
-  const spinValue = useAnimatedValue(0);
-
-  if (focused) {
-    Animated.timing(spinValue, {
-      toValue: 1,
-      duration: 1000,
-      useNativeDriver: true,
-    }).start(() => {
-      spinValue.setValue(0);
-    });
-  }
-
   return (
     <View style={{ overflow: 'hidden' }}>
-      <Animated.View
-        style={{
-          transform: [
-            {
-              rotateY: spinValue.interpolate({
-                inputRange: [0, 0.5, 1],
-                outputRange: ['0deg', '180deg', '360deg'],
-              }),
-            },
-          ],
-        }}
-      >
+      <Animated.View>
         <LucideHomeIcon color={color} size={TAB_ICON_SIZE} />
       </Animated.View>
     </View>
@@ -149,28 +103,8 @@ function HomeIcon({ focused, color }: IconProps) {
 }
 
 function SettingsIcon({ focused, color }: IconProps) {
-  const opacityValue = useAnimatedValue(1);
-
-  React.useEffect(() => {
-    if (focused) {
-      opacityValue.setValue(0);
-
-      Animated.timing(opacityValue, {
-        toValue: 1,
-        duration: 1000,
-        useNativeDriver: false,
-      }).start(() => {
-        opacityValue.setValue(1);
-      });
-    }
-  });
-
   return (
-    <Animated.View
-      style={{
-        opacity: opacityValue,
-      }}
-    >
+    <Animated.View>
       <LucideSettingsIcon color={color} size={TAB_ICON_SIZE} />
     </Animated.View>
   );

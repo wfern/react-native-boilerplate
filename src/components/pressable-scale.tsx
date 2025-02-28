@@ -7,7 +7,7 @@ import Animated, {
   withTiming,
 } from 'react-native-reanimated';
 
-const DEFAULT_TARGET_SCALE = 0.98;
+const DEFAULT_TARGET_SCALE = 0.95;
 
 const AnimatedPressable = Animated.createAnimatedComponent(Pressable);
 

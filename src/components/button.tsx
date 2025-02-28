@@ -7,7 +7,7 @@ import { Text } from '@/components/text';
 
 const buttonVariants = tv({
   slots: {
-    base: 'rounded-4xl px-6 py-3',
+    base: 'rounded-xl px-6 py-2',
     text: 'text-center',
   },
   // TODO: and add a new color variant
